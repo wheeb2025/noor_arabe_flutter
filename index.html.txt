@@ -210,7 +210,9 @@
   <script>
     // روابطك (عدّلها كما تشاء):
     const LINKS = {
-      apk: "#", // <a class="btn" href="https://github.com/wheeb2025/noor_arabe_flutter/releases/latest/download/app-release.apk" target="_blank" rel="noopener">تحميل التطبيق (APK)</a>
+      apk: "#", // <a class="btn"
+   href="https://github.com/wheeb2025/noor_arabe_flutter/releases/latest/download/app-debug.apk"
+   target="_blank" rel="noopener">تحميل التطبيق (APK)</a>
 
       github: "https://github.com/wheeb2025/noor_arabe_flutter"
     };
@@ -351,4 +353,5 @@
   </script>
 </body>
 </html>
+
 
