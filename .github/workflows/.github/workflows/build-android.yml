@@ -1,0 +1,55 @@
+name: Build Android APK (Flutter)
+
+on:
+  push:
+    tags:
+      - 'v*'             # يبني عند إنشاء tag مثل v0.1
+  workflow_dispatch:      # لتشغيله يدويًا من تبويب Actions
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Pub get
+        run: flutter pub get
+
+      # APK تجريبي موقّع بمفتاح debug (مناسب للتثبيت اليدوي والاختبار)
+      - name: Build DEBUG APK (signed with debug key)
+        run: flutter build apk --debug
+
+      # بناء نسخة release غير موقّعة (للإطلاق الرسمي لاحقًا بعد إعداد keystore)
+      - name: Build RELEASE APK (unsigned)
+        run: flutter build apk --release
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk-artifacts
+          path: |
+            build/app/outputs/flutter-apk/app-debug.apk
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/flutter-apk/app-release-unsigned.apk
+
+      # لو نشرت Tag مثل v0.1 ينشئ Release ويُرفق كلا الملفين
+      - name: Create GitHub Release and upload APKs
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            build/app/outputs/flutter-apk/app-debug.apk
+            build/app/outputs/flutter-apk/app-release-unsigned.apk
