@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>نور عربي — تطبيق تعليم العربية</title>
+
+  <!-- (اختياري) خط عربي جميل؛ احذفه إذا أردت العمل دون إنترنت -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --green:#0E5A41; --gold:#D4AF37; --bg:#F7F4ED; --ink:#133127;
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: "Cairo", system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Naskh Arabic", sans-serif;
+      background:var(--bg); color:var(--ink);
+    }
+    header{
+      background:linear-gradient(180deg, rgba(14,90,65,0.95), rgba(14,90,65,0.85)),
+                 url('hero-pattern.svg') center/cover no-repeat;
+      color:#fff; padding:28px 16px 60px; position:relative; overflow:hidden;
+    }
+    .container{max-width:1100px; margin:0 auto; padding:0 16px}
+    .topbar{display:flex; gap:12px; align-items:center; justify-content:space-between}
+    .brand{display:flex; align-items:center; gap:12px}
+    .brand-logo{
+      width:44px; height:44px; border-radius:50%;
+      background:#fff1; border:2px solid #fff3; display:grid; place-items:center;
+    }
+    .brand-logo svg{width:26px; height:26px; fill:#fff}
+    .lang{
+      display:flex; align-items:center; gap:8px; background:#fff1; border:1px solid #fff3;
+      padding:6px 10px; border-radius:999px; color:#fff; cursor:pointer;
+    }
+    .hero{
+      margin-top:38px; display:grid; grid-template-columns:1.2fr 0.8fr; gap:28px; align-items:center;
+    }
+    .hero h1{font-size:clamp(26px,4vw,40px); margin:0 0 10px}
+    .hero p{margin:0 0 18px; line-height:1.8}
+    .cta{display:flex; gap:10px; flex-wrap:wrap}
+    .btn{
+      padding:12px 16px; border-radius:12px; border:2px solid transparent;
+      background:#fff; color:var(--green); font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+    }
+    .btn.secondary{background:transparent; color:#fff; border-color:#fff7}
+    .phone{
+      background:#fff; border-radius:28px; padding:16px; box-shadow:0 10px 30px rgba(0,0,0,.15)
+    }
+    .pill{
+      background:#fff; color:var(--green); border-radius:999px; padding:6px 12px; font-weight:700; display:inline-block
+    }
+
+    section{padding:56px 0}
+    h2{font-size:clamp(22px,3.2vw,28px); margin:0 0 22px}
+    .grid{display:grid; gap:16px}
+    .grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    @media (max-width:900px){ .hero{grid-template-columns:1fr} .grid.cols-3{grid-template-columns:1fr 1fr} }
+    @media (max-width:620px){ .grid.cols-3,.grid.cols-2{grid-template-columns:1fr} }
+
+    .card{
+      background:#fff; border-radius:var(--radius); padding:18px; border:1px solid #00000010;
+      box-shadow:0 6px 18px rgba(0,0,0,.06);
+    }
+    .card h3{margin:6px 0 8px; font-size:18px}
+    .feat{display:flex; gap:12px; align-items:flex-start}
+    .icon{
+      width:36px; height:36px; border-radius:10px; display:grid; place-items:center;
+      background:#E7EFEA; color:var(--green); flex:0 0 auto;
+    }
+    .screens img{width:100%; border-radius:16px; border:1px solid #00000010}
+
+    .notice{
+      background:#0E5A41; color:#fff; border-left:6px solid var(--gold); padding:14px 16px; border-radius:10px;
+    }
+    footer{
+      background:var(--green); color:#fff; padding:18px 0; margin-top:30px; border-top:3px solid var(--gold)
+    }
+    footer .sponsor{color:var(--gold); font-weight:700; margin-bottom:4px}
+    footer .rights{font-size:13px}
+    footer a{color:#fff; text-decoration:underline}
+    .row{display:flex; flex-wrap:wrap; gap:10px; align-items:center}
+    .small{font-size:13px; opacity:.9}
+    .sep{opacity:.5}
+
+    /* اتجاه النص الديناميكي */
+    [dir="ltr"] .rtl-only{display:none}
+    [dir="rtl"] .ltr-only{display:none}
+  </style>
+</head>
+<body>
+
+  <!-- Header / Hero -->
+  <header>
+    <div class="container">
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand-logo" aria-hidden="true">
+            <!-- رمزية حرف ن -->
+            <svg viewBox="0 0 24 24"><path d="M12 3c4.97 0 9 4.03 9 9s-4.03 9-9 9S3 16.97 3 12 7.03 3 12 3zm4.6 8.1c.35.35.35.92 0 1.27-2.92 2.92-6.89 3.64-10.48 2.27-.49-.18-.75-.72-.57-1.2.18-.49.72-.75 1.2-.57 2.97 1.1 6.27.49 8.68-1.92.35-.35.92-.35 1.27 0z"/></svg>
+          </div>
+          <strong id="brandName">نور عربي</strong>
+        </div>
+
+        <!-- Language switch -->
+        <div class="lang" id="langBtn" role="button" aria-label="Change language">
+          <span id="langLabel">العربية</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M7 10l5 5 5-5z"/></svg>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div>
+          <span class="pill" id="slogan">تعلّم العربية بثلاث لغات</span>
+          <h1 id="heroTitle">تطبيق نور عربي لتعلّم اللغة العربية</h1>
+          <p id="heroDesc">
+            واجهة سهلة، طابع إسلامي، قرآن بالرسم العثماني مع تفسير بالعربية والفرنسية والإنجليزية،
+            ودروس تفاعلية تعمل دون إنترنت.
+          </p>
+          <div class="cta">
+            <a class="btn" id="btnDownload" href="#" target="_blank" rel="noopener">تحميل التطبيق (APK)</a>
+            <a class="btn secondary" id="btnGithub" href="#" target="_blank" rel="noopener">قائمة المشروع على GitHub</a>
+          </div>
+          <p class="small" style="margin-top:10px" id="sponsor">
+            برعاية مؤسسة حياة للتنمية البشرية – دولية بنين
+          </p>
+        </div>
+
+        <!-- mock phone -->
+        <div class="phone">
+          <img src="https://via.placeholder.com/480x860/FFFFFF/0E5A41?text=Noor+Arabe+App+Preview" alt="لقطة للتطبيق" style="width:100%; border-radius:20px;">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Features -->
+  <section>
+    <div class="container">
+      <h2 id="featuresTitle">لماذا هذا التطبيق؟</h2>
+      <div class="grid cols-3">
+        <div class="card feat">
+          <div class="icon">📚</div>
+          <div>
+            <h3 id="f1t">دروس عربية مبسطة</h3>
+            <p id="f1d">حروف وكلمات وجُمل مع نطق صحيح وترجمة بالفرنسية والإنجليزية.</p>
+          </div>
+        </div>
+        <div class="card feat">
+          <div class="icon">📖</div>
+          <div>
+            <h3 id="f2t">القرآن بالرسم العثماني</h3>
+            <p id="f2d">تلاوة مع تفسير مبسط بثلاث لغات وخيار تنزيل للاستماع دون إنترنت.</p>
+          </div>
+        </div>
+        <div class="card feat">
+          <div class="icon">🕌</div>
+          <div>
+            <h3 id="f3t">طابع إسلامي أنيق</h3>
+            <p id="f3d">تصميم أخضر/ذهبي مريح، وضع ليلي، وخط عربي واضح.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card notice" style="margin-top:18px" id="offlineNote">
+        يعمل دون إنترنت: النصوص، الدروس، وبعض السور القصيرة — والباقي قابل للتنزيل.
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots / Gallery -->
+  <section class="screens">
+    <div class="container">
+      <h2 id="screensTitle">لقطات من الواجهة</h2>
+      <div class="grid cols-3">
+        <img src="https://via.placeholder.com/800x500/FFFFFF/0E5A41?text=Home+Screen" alt="الصفحة الرئيسية">
+        <img src="https://via.placeholder.com/800x500/FFFFFF/0E5A41?text=Qur%27an+Screen" alt="واجهة القرآن">
+        <img src="https://via.placeholder.com/800x500/FFFFFF/0E5A41?text=Courses+Screen" alt="واجهة الدروس">
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section>
+    <div class="container">
+      <h2 id="contactTitle">تواصل معنا</h2>
+      <div class="card">
+        <div class="row">
+          <strong>البريد:</strong> <a href="mailto:omrwheeb@gmail.com">omrwheeb@gmail.com</a>
+          <span class="sep">|</span>
+          <strong id="rightsLine">© جميع الحقوق محفوظة لدى D. WHIEB ALHDAD</strong>
+        </div>
+        <p class="small" style="margin-top:10px" id="aboutLine">
+          هذا التطبيق مخصص لتعليم العربية للناطقين بالفرنسية والإنجليزية، مع عناية خاصة بالمحتوى الإسلامي.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="sponsor" id="sponsorFoot">برعاية مؤسسة حياة للتنمية البشرية – دولية بنين</div>
+      <div class="rights" id="rightsFoot">© جميع الحقوق محفوظة لدى D. WHIEB ALHDAD — للتواصل: <a href="mailto:omrwheeb@gmail.com">omrwheeb@gmail.com</a></div>
+    </div>
+  </footer>
+
+  <script>
+    // روابطك (عدّلها كما تشاء):
+    const LINKS = {
+      apk: "#", // ضع رابط تحميل APK هنا
+      github: "https://github.com/wheeb2025/noor_arabe_flutter"
+    };
+
+    document.getElementById("btnDownload").href = LINKS.apk;
+    document.getElementById("btnGithub").href   = LINKS.github;
+
+    // نصوص الواجهة (AR/FR/EN)
+    const i18n = {
+      ar: {
+        brand:"نور عربي",
+        slogan:"تعلّم العربية بثلاث لغات",
+        heroTitle:"تطبيق نور عربي لتعلّم اللغة العربية",
+        heroDesc:"واجهة سهلة، طابع إسلامي، قرآن بالرسم العثماني مع تفسير بالعربية والفرنسية والإنجليزية، ودروس تفاعلية تعمل دون إنترنت.",
+        sponsor:"برعاية مؤسسة حياة للتنمية البشرية – دولية بنين",
+        btnDownload:"تحميل التطبيق (APK)",
+        btnGithub:"قائمة المشروع على GitHub",
+        featuresTitle:"لماذا هذا التطبيق؟",
+        f1t:"دروس عربية مبسطة", f1d:"حروف وكلمات وجُمل مع نطق صحيح وترجمة بالفرنسية والإنجليزية.",
+        f2t:"القرآن بالرسم العثماني", f2d:"تلاوة مع تفسير مبسط بثلاث لغات وخيار تنزيل للاستماع دون إنترنت.",
+        f3t:"طابع إسلامي أنيق", f3d:"تصميم أخضر/ذهبي مريح، وضع ليلي، وخط عربي واضح.",
+        offlineNote:"يعمل دون إنترنت: النصوص، الدروس، وبعض السور القصيرة — والباقي قابل للتنزيل.",
+        screensTitle:"لقطات من الواجهة",
+        contactTitle:"تواصل معنا",
+        rightsLine:"© جميع الحقوق محفوظة لدى D. WHIEB ALHDAD",
+        aboutLine:"هذا التطبيق مخصص لتعليم العربية للناطقين بالفرنسية والإنجليزية، مع عناية خاصة بالمحتوى الإسلامي.",
+        sponsorFoot:"برعاية مؤسسة حياة للتنمية البشرية – دولة بنين",
+        rightsFoot:"© جميع الحقوق محفوظة لدى D. WHIEB ALHDAD — للتواصل: "
+      },
+      fr: {
+        brand:"Noor Arabe",
+        slogan:"Apprendre l’arabe en trois langues",
+        heroTitle:"Application Noor Arabe pour apprendre l’arabe",
+        heroDesc:"Interface simple, esprit islamique, Coran en écriture ʿuthmânî avec tafsîr en arabe et en français/anglais, leçons interactives hors-ligne.",
+        sponsor:"Sous le patronage de la Fondation Hayat pour le Développement Humain – Bénin",
+        btnDownload:"Télécharger l’APK",
+        btnGithub:"Projet sur GitHub",
+        featuresTitle:"Pourquoi cette application ?",
+        f1t:"Leçons d’arabe simplifiées", f1d:"Lettres, mots et phrases avec prononciation et traduction (FR/EN).",
+        f2t:"Coran (écriture ʿuthmânî)", f2d:"Récitation avec tafsîr en 3 langues et téléchargement pour l’écoute hors-ligne.",
+        f3t:"Esthétique islamique soignée", f3d:"Palette vert/or élégante, mode sombre, belle police arabe.",
+        offlineNote:"Fonctionne hors-ligne : textes, leçons et quelques sourates — le reste téléchargeable.",
+        screensTitle:"Captures d’écran",
+        contactTitle:"Contactez-nous",
+        rightsLine:"© Tous droits réservés à D. WHIEB ALHDAD",
+        aboutLine:"Application pour enseigner l’arabe aux francophones et anglophones avec un contenu islamique soigné.",
+        sponsorFoot:"Sous le patronage de la Fondation Hayat – Bénin",
+        rightsFoot:"© Tous droits réservés à D. WHIEB ALHDAD — Contact : "
+      },
+      en: {
+        brand:"Noor Arabe",
+        slogan:"Learn Arabic in three languages",
+        heroTitle:"Noor Arabe — Learn Arabic",
+        heroDesc:"Simple UI, Islamic theme, Qur’an in Uthmani script with tafsir in AR/FR/EN, interactive lessons, offline-friendly.",
+        sponsor:"Sponsored by Hayat Foundation for Human Development – Benin",
+        btnDownload:"Download APK",
+        btnGithub:"Project on GitHub",
+        featuresTitle:"Why this app?",
+        f1t:"Simplified Arabic lessons", f1d:"Letters, words and phrases with pronunciation and FR/EN translations.",
+        f2t:"Qur’an (Uthmani script)", f2d:"Recitation with tafsir in three languages + offline downloads.",
+        f3t:"Elegant Islamic look", f3d:"Green/Gold palette, dark mode, crisp Arabic font.",
+        offlineNote:"Works offline: texts, lessons, and short surahs — rest downloadable.",
+        screensTitle:"Screenshots",
+        contactTitle:"Contact us",
+        rightsLine:"© All rights reserved to D. WHIEB ALHDAD",
+        aboutLine:"For teaching Arabic to French/English speakers, with special care for Islamic content.",
+        sponsorFoot:"Sponsored by Hayat Foundation – Benin",
+        rightsFoot:"© All rights reserved to D. WHIEB ALHDAD — Email: "
+      }
+    };
+
+    const els = {
+      brandName:     document.getElementById('brandName'),
+      slogan:        document.getElementById('slogan'),
+      heroTitle:     document.getElementById('heroTitle'),
+      heroDesc:      document.getElementById('heroDesc'),
+      sponsor:       document.getElementById('sponsor'),
+      btnDownload:   document.getElementById('btnDownload'),
+      btnGithub:     document.getElementById('btnGithub'),
+      featuresTitle: document.getElementById('featuresTitle'),
+      f1t:           document.getElementById('f1t'),
+      f1d:           document.getElementById('f1d'),
+      f2t:           document.getElementById('f2t'),
+      f2d:           document.getElementById('f2d'),
+      f3t:           document.getElementById('f3t'),
+      f3d:           document.getElementById('f3d'),
+      offlineNote:   document.getElementById('offlineNote'),
+      screensTitle:  document.getElementById('screensTitle'),
+      contactTitle:  document.getElementById('contactTitle'),
+      rightsLine:    document.getElementById('rightsLine'),
+      aboutLine:     document.getElementById('aboutLine'),
+      sponsorFoot:   document.getElementById('sponsorFoot'),
+      rightsFoot:    document.getElementById('rightsFoot'),
+      langLabel:     document.getElementById('langLabel')
+    };
+
+    function applyLang(lang){
+      const t = i18n[lang];
+      document.documentElement.lang = lang;
+      document.documentElement.dir  = (lang === 'ar') ? 'rtl' : 'ltr';
+
+      els.brandName.textContent     = t.brand;
+      els.slogan.textContent        = t.slogan;
+      els.heroTitle.textContent     = t.heroTitle;
+      els.heroDesc.textContent      = t.heroDesc;
+      els.sponsor.textContent       = t.sponsor;
+      els.btnDownload.textContent   = t.btnDownload;
+      els.btnGithub.textContent     = t.btnGithub;
+      els.featuresTitle.textContent = t.featuresTitle;
+      els.f1t.textContent = t.f1t;  els.f1d.textContent = t.f1d;
+      els.f2t.textContent = t.f2t;  els.f2d.textContent = t.f2d;
+      els.f3t.textContent = t.f3t;  els.f3d.textContent = t.f3d;
+      els.offlineNote.textContent   = t.offlineNote;
+      els.screensTitle.textContent  = t.screensTitle;
+      els.contactTitle.textContent  = t.contactTitle;
+      els.rightsLine.textContent    = t.rightsLine;
+      els.aboutLine.textContent     = t.aboutLine;
+      els.sponsorFoot.textContent   = t.sponsorFoot;
+
+      // بريد التواصل ثابت كما هو:
+      const baseEmail = (lang==='en') ? 'Email: ' : (lang==='fr') ? 'Contact : ' : 'للتواصل: ';
+      els.rightsFoot.innerHTML = t.rightsFoot + `<a href="mailto:omrwheeb@gmail.com">omrwheeb@gmail.com</a>`;
+      els.langLabel.textContent = (lang==='en') ? 'English' : (lang==='fr') ? 'Français' : 'العربية';
+    }
+
+    // تبديل اللغة (قائمة بسيطة)
+    const langBtn = document.getElementById('langBtn');
+    langBtn.addEventListener('click', () => {
+      const now = document.documentElement.lang || 'ar';
+      const order = ['ar','fr','en'];
+      const next = order[(order.indexOf(now)+1)%order.length];
+      applyLang(next);
+    });
+
+    // لغة افتراضية بناء على المتصفح
+    const preferred = (navigator.language||'ar').slice(0,2);
+    applyLang(['ar','fr','en'].includes(preferred) ? preferred : 'ar');
+  </script>
+</body>
+</html>
