@@ -3,8 +3,8 @@ name: Build Android APK (Flutter)
 on:
   push:
     tags:
-      - 'v*'      # يبني عند إنشاء إصدار بعلامة مثل v0.1
-  workflow_dispatch:   # لتشغيله يدويًا من تبويب Actions
+      - 'v*'                 # يبني تلقائيًا عند إنشاء Tag مثل v0.2
+  workflow_dispatch:         # لتشغيله يدويًا من تبويب Actions
 
 jobs:
   build:
@@ -28,17 +28,29 @@ jobs:
       - name: Flutter pub get
         run: flutter pub get
 
-      - name: Build APK (release)
+      # نسخة قابلة للتثبيت مباشرة (Debug)
+      - name: Build DEBUG APK (signed with debug key)
+        run: flutter build apk --debug
+
+      # نسخة إصدار (Release)
+      - name: Build RELEASE APK
         run: flutter build apk --release
 
-      - name: Upload APK artifact
+      # رفع الملفين كـ Artifacts دائمًا
+      - name: Upload APK artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: app-release
-          path: build/app/outputs/flutter-apk/app-release.apk
+          name: apks
+          path: |
+            build/app/outputs/flutter-apk/app-debug.apk
+            build/app/outputs/flutter-apk/app-release.apk
 
-      - name: Create GitHub Release and upload APK
-        uses: softprops/action-gh-release@v2
+      # عند وجود Tag (مثلاً v0.2) أنشئ Release وارفع الـ APKs
+      - name: Create GitHub Release and upload APKs
         if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
         with:
-          files: build/app/outputs/flutter-apk/app-release.apk
+          files: |
+            build/app/outputs/flutter-apk/app-debug.apk
+            build/app/outputs/flutter-apk/app-release.apk
+update workflow
